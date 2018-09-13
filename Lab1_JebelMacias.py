@@ -104,6 +104,8 @@ def hash_with_sha256(str):
     hex_dig = hash_object.hexdigest()
     return hex_dig
 
+#The method main calls all other methods in the program, and defnines
+#the beginning digit length by using the minimum value.
 def main():
     userAnswers = userInput()
     fileName = userAnswers[0]
