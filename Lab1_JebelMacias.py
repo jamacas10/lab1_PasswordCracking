@@ -13,28 +13,30 @@ from os import path
 ##############################################################
 def userInput():
     userAnswers = [None] * 3
-    check0 = 0
-    check1 = 0
-    check2 = 0
-    while check0 == 0:
-        userAnswers[0] = (str(input('What is the name of the .txt file that contains the list of users, salt values, and passwords?\n')))
-        if path.exists(str(userAnswers[0])):
-            check0 = 1
+
+    while True:
+        userAnswers[0] = input('What is the path of the .txt file that contains the list of users, salt values, and passwords?\n')
+        if path.exists(str(userAnswers[0])): #If file is valid path, break
+            break
+        print("The file you input does not exist.") #If file is not a valid path, ask again
+        continue
+    while True: #Assures user input is a positive number
+        userAnswers[1] = input('What is the minimum number of digits possible in each passwords?\n')
+        if not userAnswers[1].isdigit(): #Assures user input is a number
+            print('Please input a valid, positive number.\n')
+            continue
         else:
-            print("The file you input does not exist.")
-            check0 = 0
-    while check1 <= 0:#Assures user input is non-negative
-        userAnswers[1] = (str(input('What is the minimum number of digits possible in each passwords?\n')))
-        if userAnswers[1].isdigit():#Assures userinput is a number
-            check1 = int(userAnswers[1])
-        else:
-            check1 = 0
-    while check2 < check1:#Assures user input is greater than minimum.
-        userAnswers[2] = (str(input('What is the max number of digits possible in each passwords?\n')))
-        if userAnswers[2].isdigit():
-            check2 = int(userAnswers[2])
-        else:
-            check2 = 0
+            if int(userAnswers[1]) > 0:#Ensures user input is positive
+                break
+    while True: #Assures user input is greater than minimum.
+        userAnswers[2] = input('What is the max number of digits possible in each passwords?\n')
+        if userAnswers[2].isdigit(): #Ensures user input is a number
+            if int(userAnswers[2])>int(userAnswers[1]): #Ensures user input is greater than the min
+                break
+            print('Min cannot be greater than Max.')
+            continue
+        print('Please enter a valid, positive number')
+        continue
     return userAnswers
 
 #The method readFromFile takes the fileName, and appends each line
@@ -50,11 +52,12 @@ def readFromFile(fileName):
             for line in file:
                 linesFromFile.append(line)
 
-                listOfPassWords = [[None for x in range(3)]for y in range(len(linesFromFile))]#Defines an array with 3 rows, and n(lines in file) columns
-                for line in range(len(linesFromFile)):
-                    listOfPassWords[line] = linesFromFile[line].strip().split(",", 2)
+            listOfPassWords = [[None for x in range(3)]for y in range(len(linesFromFile))]#Defines an array with 3 rows, and n(lines in file) columns
+            for line in range(len(linesFromFile)):
+                listOfPassWords[line] = linesFromFile[line].strip().split(",", 2)
     except Exception as e:
-        print("Failed to load file " + filename + " in method readFromFile.")
+        print("Failed to load file " + fileName + " in method readFromFile.")
+        print(e)
         return
 
     return listOfPassWords
