@@ -50,9 +50,9 @@ def readFromFile(fileName):
             for line in file:
                 linesFromFile.append(line)
 
-                listOfPassWords = [[None for x in range(3)]for y in range(len(linesFromFile))]#Defines an array with 3 rows, and n(lines in file) columns
-                for line in range(len(linesFromFile)):
-                    listOfPassWords[line] = linesFromFile[line].strip().split(",", 2)
+             listOfPassWords = [[None for x in range(3)]for y in range(len(linesFromFile))]#Defines an array with 3 rows, and n(lines in file) columns
+             for line in range(len(linesFromFile)):
+                listOfPassWords[line] = linesFromFile[line].strip().split(",", 2)
     except Exception as e:
         print("Failed to load file " + filename + " in method readFromFile.")
         return
